@@ -1,4 +1,5 @@
 import json
+import time
 import spotipy
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
@@ -19,15 +20,17 @@ class SpCaller:
 
     def initMainWindow(self):
         result = self.sp.current_user_playing_track()
+        if result == None:
+            return 'Ничего не воспроизводится', ''
 
         resource = requests.get(result["item"]["album"]["images"][1]["url"])
+        print(self.albumImageSize)
         with open('albumImg.jpg', 'wb') as img:
             img.write(resource.content)
-
         img = Image.open('albumImg.jpg')
         newImg = img.resize((self.albumImageSize, self.albumImageSize))
         newImg.save('albumImg.jpg')
-
+        print('done')
         name = result["item"]["name"]
         artist = ", ".join(artist["name"] for artist in result["item"]["artists"])
 
@@ -36,37 +39,42 @@ class SpCaller:
     def getProgressTrack(self):
         result = self.sp.current_user_playing_track()
 
+        if result != None:
+            progress = int(result["progress_ms"]/1000)
+            duration = int(result["item"]["duration_ms"]/1000)
+        else:
+            progress = '--:--'
+            duration = '--:--'
 
-        return (int(result["progress_ms"]/1000), int(result["item"]["duration_ms"]/1000))
+        return (progress, duration)
 
     def getTrackUpdate(self):
         lastName = ''
         lastArtists = ''
         while True:
             result = self.sp.current_playback()
+            if result == None:
+                time.sleep(0.5)
+                return self.initMainWindow()
 
             resource = requests.get(result["item"]["album"]["images"][1]["url"])
-            with open('albumImg.jpg', 'wb') as img:
-                img.write(resource.content)
-
-            img = Image.open('albumImg.jpg')
-            newImg = img.resize((self.albumImageSize, self.albumImageSize))
-            newImg.save('albumImg.jpg')
 
             name = result["item"]["name"]
             artist = ", ".join(artist["name"] for artist in result["item"]["artists"])
-
             if lastName + lastArtists == '':
                 lastName = name
                 lastArtists = artist
-            elif lastName + lastArtists != name + artist:
-                break
+            if lastName + lastArtists != name + artist:
+                with open('albumImg.jpg', 'wb') as img:
+                    img.write(resource.content)
+                img = Image.open('albumImg.jpg')
+                newImg = img.resize((self.albumImageSize, self.albumImageSize))
+                newImg.save('albumImg.jpg')
+                return name, artist
+            # print(f'{result["item"]["name"]} - {", ".join(artist["name"] for artist in result["item"]["artists"])}\n   ',
+            #       f'{result["progress_ms"]//60000}:{0 if len(str(int(result["progress_ms"]/1000%60))) == 1 else ""}{int(result["progress_ms"]/1000%60)}'
+            #       f' / {result["item"]["duration_ms"]//60000}:{0 if len(str(int(result["item"]["duration_ms"]/1000%60))) == 1 else ""}{int(result["item"]["duration_ms"]/1000%60)}')
 
-            print(f'{result["item"]["name"]} - {", ".join(artist["name"] for artist in result["item"]["artists"])}\n   ',
-                  f'{result["progress_ms"]//60000}:{0 if len(str(int(result["progress_ms"]/1000%60))) == 1 else ""}{int(result["progress_ms"]/1000%60)}'
-                  f' / {result["item"]["duration_ms"]//60000}:{0 if len(str(int(result["item"]["duration_ms"]/1000%60))) == 1 else ""}{int(result["item"]["duration_ms"]/1000%60)}')
-
-        return name, artist
 
 if __name__ == '__main__':
     spotify = SpCaller()

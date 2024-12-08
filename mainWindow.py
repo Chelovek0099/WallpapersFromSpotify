@@ -2,14 +2,20 @@ import json
 
 from PIL import Image
 
-from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect, Qt)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect, Qt, QObject, QThread, QEvent)
 from PySide6.QtGui import (QPixmap, QRegion)
-from PySide6.QtWidgets import (QLabel, QWidget, QSlider)
+from PySide6.QtWidgets import (QLabel, QWidget, QSlider, QDialog, QMainWindow)
+from parametersConfig import Ui_Dialog
 
 from domColor import sqrt_algorithm
 
 
 class Ui_MainWindow(object):
+    def __init__(self):
+        self.newWindow = QDialog()
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self.newWindow)
+
     def initializteUi(self, MainWindow):
         self.operator_to_func = {
             '>': lambda a, b: a > b,
@@ -94,18 +100,19 @@ class Ui_MainWindow(object):
                 self.nameArtistsPosition = *(self.trackNamePosition[0],
                                              self.trackNamePosition[1] + int(
                                                  1.35 * self.trackNameSize) + nameArtistMargin),
-        elif self.trackNameMode == "left":
+        elif self.config['trackNameMode'] == "left":
             self.trackNamePosition = *(
             self.albumImageMarginUp + self.albumImageSize - self.trackNameSize - self.trackNamePosition[1],
             self.albumImageMarginLeft - self.trackNamePosition[0]),
             if self.nameArtistsMode == "up":
-                self.nameArtistsPosition = *(self.trackNamePosition[0],
-                                             self.trackNamePosition[1] - int(
-                                                 self.nameArtistsSize * 1.35) - nameArtistMargin),
+                self.nameArtistsPosition = *(self.trackNamePosition[0] - int(
+                                                 self.nameArtistsSize * 1.35) - nameArtistMargin,
+                                             self.trackNamePosition[1]),
             elif self.nameArtistsMode == "down":
-                self.nameArtistsPosition = *(self.trackNamePosition[0],
-                                             self.trackNamePosition[1] + int(
-                                                 1.35 * self.trackNameSize) + nameArtistMargin),
+                print(self.trackNamePosition)
+                self.nameArtistsPosition = *(self.trackNamePosition[0] + int(
+                                                 1.35 * self.trackNameSize) + nameArtistMargin,
+                                             self.trackNamePosition[1]),
         elif self.trackNameMode == "down":
             self.trackNamePosition = *(self.albumImageMarginLeft - self.trackNamePosition[0],
                                        self.albumImageMarginUp + self.albumImageSize + self.trackNamePosition[1]),
@@ -205,7 +212,14 @@ class Ui_MainWindow(object):
         self.progressTime = QLabel(self.centralwidget)
         self.durationTime = QLabel(self.centralwidget)
         self.initializteUi(MainWindow)
+        MainWindow.setCentralWidget(self.centralwidget)
 
+        QMetaObject.connectSlotsByName(MainWindow)
+
+        self.updateUi(MainWindow)
+
+    def updateUi(self, MainWindow):
+        self.initializteUi(MainWindow)
         self.albumImage.setObjectName(u"albumImage")
         self.albumImage.setGeometry(QRect(self.albumImageMarginLeft, self.albumImageMarginUp, self.albumImageSize, self.albumImageSize))
         self.borderRadiusAlbumImage(self.albumImageRadius)
@@ -219,7 +233,7 @@ class Ui_MainWindow(object):
         if self.trackNameMode == "left":
             self.trackName.setGeometry(QRect(0, *self.trackNamePosition, 1000))
 
-            self.artists.setGeometry(QRect(QRect(0, *self.nameArtistsPosition, 1000)))
+            self.artists.setGeometry(QRect(QRect(0, *self.nameArtistsPosition, int(1.35 * self.nameArtistsSize))))
         else:
             self.trackName.setGeometry(QRect(*self.trackNamePosition, 1000, int(1.35 * self.trackNameSize)))
 
@@ -237,9 +251,15 @@ class Ui_MainWindow(object):
         self.progressTime.setStyleSheet(f"font-size: {self.trackProgressSize}px")
         self.durationTime.setStyleSheet(f"font-size: {self.trackDurationSize}px")
 
-        MainWindow.setCentralWidget(self.centralwidget)
+        if self.config["trackNameMode"] == 'left':
+            self.trackName.setAlignment(Qt.AlignRight)
+            self.artists.setAlignment(Qt.AlignRight)
+        else:
+            self.trackName.setAlignment(Qt.AlignLeft)
+            self.artists.setAlignment(Qt.AlignLeft)
 
-        QMetaObject.connectSlotsByName(MainWindow)
+        self.albumImage.setText("")
+        self.albumImage.setPixmap(QPixmap(r'C:\Users\user\PycharmProjects\WallpapersFromSpotify\albumImg.jpg'))
 
 
     def borderRadiusAlbumImage(self, radius):
@@ -258,15 +278,21 @@ class Ui_MainWindow(object):
         self.albumImage.setMask(circle1Region + circle2Region + circle3Region + circle4Region + rect1Region + rect2Region)
 
     def updateProgressBar(self, progress, duration):
-        self.trackSlider.setMaximum(duration)
-        self.trackSlider.setValue(progress)
+        if type(progress) == int:
+            self.trackSlider.setMaximum(duration)
+            self.trackSlider.setValue(progress)
 
-        self.progressTime.setText(str(progress // 60) + ':' +
-                                  ('0' if len(str(int(progress % 60))) == 1 else '') +
-                                  str(progress % 60))
-        self.durationTime.setText(str(duration // 60) + ':' +
+            self.progressTime.setText(str(progress // 60) + ':' +
+                                      ('0' if len(str(int(progress % 60))) == 1 else '') +
+                                      str(progress % 60))
+            self.durationTime.setText(str(duration // 60) + ':' +
                                   ('0' if len(str(duration % 60)) == 1 else '') +
                                   str(duration % 60))
+        else:
+            self.trackSlider.setValue(0)
+            self.progressTime.setText(progress)
+            self.durationTime.setText(duration)
+
     def retranslateUi(self, MainWindow, trackName, artists):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
 
@@ -277,7 +303,6 @@ class Ui_MainWindow(object):
             backgroundColor = str(sqrt_algorithm(Image.open(r'C:\Users\user\PycharmProjects\WallpapersFromSpotify\albumImg.jpg')))
             MainWindow.setStyleSheet(f"background-color: rgb{backgroundColor};")
             backgroundColor = list(sqrt_algorithm(Image.open(r'C:\Users\user\PycharmProjects\WallpapersFromSpotify\albumImg.jpg')))
-        print(backgroundColor)
 
         if self.operator_to_func[self.trackNameColorThresholdMode](sorted(backgroundColor), sorted(self.trackNameColorThreshold)) and not self.trackNameColorFixed:
             self.trackName.setStyleSheet(f"color: rgb{str(tuple(self.trackNameColor2))}; font-size: {self.trackNameSize}px")
@@ -333,12 +358,14 @@ class Ui_MainWindow(object):
         {"}"}
         """)
 
-        self.albumImage.setText("")
-        self.albumImage.setPixmap(QPixmap(r'C:\Users\user\PycharmProjects\WallpapersFromSpotify\albumImg.jpg'))
         self.trackName.setText(trackName)
         self.artists.setText(artists)
 
-        if self.trackNameMode == "left":
+        if self.config['trackNameMode'] == 'left':
             self.trackName.setAlignment(Qt.AlignRight)
-
             self.artists.setAlignment(Qt.AlignRight)
+        else:
+            self.trackName.setAlignment(Qt.AlignLeft)
+            self.artists.setAlignment(Qt.AlignLeft)
+
+        self.albumImage.setPixmap(QPixmap(r'C:\Users\user\PycharmProjects\WallpapersFromSpotify\albumImg.jpg'))
