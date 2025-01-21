@@ -6,6 +6,13 @@ import json
 
 class Widget(QLabel):
     def init(self, playback, background):
+        self.operator_to_func = {
+            '>': lambda a, b: a > b,
+            '<': lambda a, b: a < b,
+            '>=': lambda a, b: a >= b,
+            '<=': lambda a, b: a <= b,
+            '==': lambda a, b: a == b
+        }
         self.configInit()
 
         track_name = playback["item"]["name"]
@@ -16,6 +23,11 @@ class Widget(QLabel):
         else:
             self.setGeometry(QRect(*self.trackNamePosition, 1000, int(1.35 * self.trackNameSize)))
 
+        if self.operator_to_func[self.trackNameColorThresholdMode](
+                sorted(background), sorted(self.trackNameColorThreshold)) and not self.trackNameColorFixed:
+            self.setStyleSheet(f"color: rgb{str(tuple(self.trackNameColor2))}; font-size: {self.trackNameSize}px")
+        else:
+            self.setStyleSheet(f"color: rgb{str(tuple(self.trackNameColor1))}; font-size: {self.trackNameSize}px")
 
         self.setText(track_name)
 

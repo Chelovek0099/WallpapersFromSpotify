@@ -67,7 +67,7 @@
         0,
         55
     ],
-    "trackSliderAdd-pageColorFixed": true,
+    "trackSliderAdd-pageColorFixed": false,
     "trackSliderAdd-pageColorThreshold": [
         30,
         30,
@@ -86,7 +86,7 @@
         245,
         255
     ],
-    "trackSliderSub-pageColorFixed": true,
+    "trackSliderSub-pageColorFixed": false,
     "trackSliderSub-pageColorThreshold": [
         30,
         30,
@@ -108,7 +108,7 @@
         245,
         255
     ],
-    "trackSliderHandleColorFixed": true,
+    "trackSliderHandleColorFixed": false,
     "trackSliderHandleColorThreshold": [
         90,
         90,

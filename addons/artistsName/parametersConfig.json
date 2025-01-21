@@ -1,0 +1,32 @@
+{
+  "name":  "Обложка трека",
+  "categories": {
+    "main": [
+      {
+        "name": "Размер обложки трека",
+        "parameter": "albumImageSize",
+        "type": "line_edits",
+        "placeholders": [
+          "px"
+        ]
+      },
+      {
+        "name": "Закругление обложки трека",
+        "parameter": "albumImageRadius",
+        "type": "line_edits",
+        "placeholders": [
+          "px"
+        ]
+      },
+      {
+        "name": "Положение обложки трека",
+        "parameter": "albumImagePosition",
+        "type": "line_edits",
+        "placeholders": [
+          "X",
+          "Y"
+        ]
+      }
+    ]
+  }
+}

@@ -3,6 +3,8 @@ from PySide6.QtCore import QRect
 from PySide6.QtGui import QPixmap, QRegion
 
 import json
+import requests
+from PIL import Image
 
 
 class Widget(QLabel):
@@ -10,28 +12,49 @@ class Widget(QLabel):
         self.configInit()
 
         self.setObjectName(u"albumImage")
-        self.setGeometry(QRect(self.albumImageMarginLeft, self.albumImageMarginUp, self.albumImageSize, self.albumImageSize))
+        self.setGeometry(
+            QRect(self.albumImagePosition[0], self.albumImagePosition[1], self.albumImageSize, self.albumImageSize))
         self.borderRadiusAlbumImage(self.albumImageRadius)
 
-        self.setText("")
-        self.setPixmap(QPixmap(r'albumImg.jpg'))
+        try:
+            resource = requests.get(playback["item"]["album"]["images"][1]["url"])
+            with open('albumImg.jpg', 'wb') as img:
+                img.write(resource.content)
+            img = Image.open('albumImg.jpg')
+            newImg = img.resize((self.albumImageSize, self.albumImageSize))
+            newImg.save('albumImg.jpg')
+        finally:
+            pass
 
-    def updateTarck(self, playback, background):
-        self.setPixmap(QPixmap(r'albumImg.jpg'))
+        self.setText("")
+        self.setPixmap(QPixmap('albumImg.jpg'))
+
+    def updateTrack(self, playback, background):
+        try:
+            resource = requests.get(playback["item"]["album"]["images"][1]["url"])
+            with open('albumImg.jpg', 'wb') as img:
+                img.write(resource.content)
+            img = Image.open('albumImg.jpg')
+            newImg = img.resize((self.albumImageSize, self.albumImageSize))
+            newImg.save('albumImg.jpg')
+        finally:
+            pass
+
+        self.setPixmap(QPixmap('albumImg.jpg'))
 
     def updateWidget(self, background):
         self.configInit()
 
-        self.setGeometry(QRect(self.albumImageMarginLeft, self.albumImageMarginUp, self.albumImageSize, self.albumImageSize))
+        self.setGeometry(
+            QRect(self.albumImagePosition[0], self.albumImagePosition[1], self.albumImageSize, self.albumImageSize))
         self.borderRadiusAlbumImage(self.albumImageRadius)
 
     def configInit(self):
-        with open(r"config.json") as configFile:
+        with open(r"addons/albumImage/config.json") as configFile:
             self.config = json.load(configFile)
         self.albumImageSize = self.config["albumImageSize"]
         self.albumImageRadius = self.config["albumImageRadius"]
-        self.albumImageMarginLeft = self.config["albumImageMarginLeft"]
-        self.albumImageMarginUp = self.config["albumImageMarginUp"]
+        self.albumImagePosition = self.config["albumImagePosition"]
 
     def borderRadiusAlbumImage(self, radius):
         circle1 = QRect(0, 0, radius, radius)
@@ -47,6 +70,3 @@ class Widget(QLabel):
         rect2Region = QRegion(QRect(0, radius / 2, self.albumImageSize, self.albumImageSize - radius))
 
         self.setMask(circle1Region + circle2Region + circle3Region + circle4Region + rect1Region + rect2Region)
-
-    def hello(self):
-        print("Hello from AlbumImage")

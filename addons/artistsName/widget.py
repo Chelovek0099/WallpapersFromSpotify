@@ -6,6 +6,13 @@ import json
 
 class Widget(QLabel):
     def init(self, playback, background):
+        self.operator_to_func = {
+            '>': lambda a, b: a > b,
+            '<': lambda a, b: a < b,
+            '>=': lambda a, b: a >= b,
+            '<=': lambda a, b: a <= b,
+            '==': lambda a, b: a == b
+        }
         self.configInit()
 
         artists_name = ", ".join(artist["name"] for artist in playback["item"]["artists"])
@@ -16,6 +23,12 @@ class Widget(QLabel):
         else:
             self.setGeometry(QRect(*self.nameArtistsPosition, 1000, int(1.35 * self.nameArtistsSize)))
 
+        if self.operator_to_func[self.nameArtistsColorThresholdMode](
+                sorted(background), sorted(self.nameArtistsColorThreshold)) and not self.nameArtistsColorFixed:
+            self.setStyleSheet(f"color: rgba{str(tuple(self.nameArtistsColor2))}; font-size: {self.nameArtistsSize}px")
+        else:
+            self.setStyleSheet(f"color: rgba{str(tuple(self.nameArtistsColor1))}; font-size: {self.nameArtistsSize}px")
+
         self.setText(artists_name)
 
         if self.config['trackNameMode'] == 'left':
@@ -25,6 +38,12 @@ class Widget(QLabel):
 
     def updateTrack(self, playback, background):
         artists_name = ", ".join(artist["name"] for artist in playback["item"]["artists"])
+
+        if self.operator_to_func[self.nameArtistsColorThresholdMode](
+                sorted(background), sorted(self.nameArtistsColorThreshold)) and not self.nameArtistsColorFixed:
+            self.setStyleSheet(f"color: rgba{str(tuple(self.nameArtistsColor2))}; font-size: {self.nameArtistsSize}px")
+        else:
+            self.setStyleSheet(f"color: rgba{str(tuple(self.nameArtistsColor1))}; font-size: {self.nameArtistsSize}px")
 
         self.setText(artists_name)
 
