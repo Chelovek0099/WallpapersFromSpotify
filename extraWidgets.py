@@ -55,6 +55,11 @@ class LineEdits(QFrame):
     def getLineEdits(self):
         return self.line_edits
 
+    def setTexts(self, texts):
+        length = len(self.line_edits)
+        for i in range(length):
+            self.line_edits[i].setText(str(texts[i] if length != 1 else texts))
+
 
 class NamedCheckBox(QFrame):
     def __init__(self, left_margin, name, parent=None):
@@ -88,6 +93,9 @@ class NamedCheckBox(QFrame):
     def setActive(self, active):
         self.checkbox.setEnabled(active)
 
+    def setChecked(self, checked):
+        self.checkbox.setChecked(bool(checked))
+
 
 class ComboBox(QFrame):
     def __init__(self, left_margin, *options, parent=None):
@@ -114,6 +122,10 @@ class ComboBox(QFrame):
 
     def setActive(self, active):
         self.comboBox.setEnabled(active)
+
+    def setText(self, text):
+        mode = self.comboBox.findText(str(text))
+        self.comboBox.setCurrentIndex(mode)
 
 
 class Frame(QFrame):

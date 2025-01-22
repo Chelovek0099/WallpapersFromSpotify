@@ -1,9 +1,12 @@
 import json
 import threading
 
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QWidget
 
+from PIL import Image
 from spotipyHandler import SpCaller
+from domColor import sqrt_algorithm
 
 
 with open('widgets.json') as widgets_config:
@@ -18,6 +21,11 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
+
+        with open('backgroundConfig.json', 'r') as backgroundConfig:
+            self.backgroundConfig = json.load(backgroundConfig)
+            self.backgroundColorFixed = self.backgroundConfig['backgroundColorFixed']
+            self.backgroundColor = self.backgroundConfig['backgroundColor']
 
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -39,6 +47,8 @@ class Ui_MainWindow(object):
             if hasattr(eval('Widget'), 'updateWidget'):
                 updateWidget.append(widget)
 
+        self.changeBackground()
+
         track_update = threading.Thread(target=self.trackUpdate)
         track_update.start()
 
@@ -52,8 +62,22 @@ class Ui_MainWindow(object):
             if track_id != last_id:
                 last_id = track_id
 
+                self.changeBackground()
+
                 for widget in updateTrack:
                     exec('self.' + widget + f'.updateTrack({playback}, (255, 255, 255))')
 
             for widget in updatePlayback:
                 exec('self.' + widget + f'.updatePlayback({playback})')
+
+    def widgetsUpdate(self):
+        for widget in updateWidget:
+            exec('self.' + widget + f'.updateWidget((255, 255, 255))')
+
+    def changeBackground(self):
+        if self.backgroundColorFixed:
+            backgroundColor = str(tuple(self.backgroundColor))
+        else:
+            backgroundColor = str(sqrt_algorithm(Image.open('albumImg.jpg')))
+        print(f'background-color: {backgroundColor}')
+        self.centralwidget.setStyleSheet(f'background-color: rgb{backgroundColor}')

@@ -45,9 +45,15 @@ class Widget(QLabel):
     def updateWidget(self, background):
         self.configInit()
 
+        img = Image.open('albumImg.jpg')
+        newImg = img.resize((self.albumImageSize, self.albumImageSize))
+        newImg.save('albumImg.jpg')
+
         self.setGeometry(
             QRect(self.albumImagePosition[0], self.albumImagePosition[1], self.albumImageSize, self.albumImageSize))
         self.borderRadiusAlbumImage(self.albumImageRadius)
+
+        self.setPixmap(QPixmap('albumImg.jpg'))
 
     def configInit(self):
         with open(r"addons/albumImage/config.json") as configFile:

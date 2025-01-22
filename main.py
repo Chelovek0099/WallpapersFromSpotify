@@ -19,7 +19,26 @@ class MainWindow(QMainWindow):
     def keyPressEvent(self, event):
         if event.modifiers().name == 'ControlModifier|AltModifier' and event.text() == 'P':
             self.new_window.show()
+
+            self.ui_new_window.apply.clicked.connect(lambda: self.apply_button())
+            self.ui_new_window.cancel.clicked.connect(lambda: self.cancel_button())
+            self.ui_new_window.ok.clicked.connect(lambda: self.ok_button())
+
             self.ui_new_window.get_configs()
+
+    def apply_button(self):
+        self.ui_new_window.apply_func()
+        self.ui.widgetsUpdate()
+
+    def cancel_button(self):
+        self.ui_new_window.cancel_func()
+        self.new_window.close()
+        self.ui.widgetsUpdate()
+
+    def ok_button(self):
+        self.ui_new_window.ok_func()
+        self.new_window.close()
+        self.ui.widgetsUpdate()
 
 
 if __name__ == "__main__":

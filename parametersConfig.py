@@ -146,7 +146,6 @@ class Ui_Dialog(object):
         self.ok.setObjectName(u"ok")
         self.ok.setMinimumSize(QSize(90, 0))
         self.ok.setMaximumSize(QSize(90, 16777215))
-        self.ok.clicked.connect(lambda: self.ok_button())
 
         self.horizontalLayout.addWidget(self.ok)
 
@@ -154,7 +153,6 @@ class Ui_Dialog(object):
         self.cancel.setObjectName(u"cancel")
         self.cancel.setMinimumSize(QSize(90, 0))
         self.cancel.setMaximumSize(QSize(90, 16777215))
-        self.cancel.clicked.connect(lambda: self.cancel_button())
 
         self.horizontalLayout.addWidget(self.cancel)
 
@@ -162,7 +160,6 @@ class Ui_Dialog(object):
         self.apply.setObjectName(u"apply")
         self.apply.setMinimumSize(QSize(90, 0))
         self.apply.setMaximumSize(QSize(90, 16777215))
-        self.apply.clicked.connect(lambda: self.apply_button())
 
         self.horizontalLayout.addWidget(self.apply)
 
@@ -184,6 +181,8 @@ class Ui_Dialog(object):
         for widget in all_widgets:
             with open(fr"addons\{widget}\parametersConfig.json", "r", encoding = "utf-8") as parameters_files:
                 parameters = json.load(parameters_files)
+            with open(fr"addons\{widget}\config.json", 'r') as config_file:
+                config = json.load(config_file)
 
             title = H1(parameters["name"])
             self.addWidgetIntoSroll(title)
@@ -212,6 +211,7 @@ class Ui_Dialog(object):
                     if widget_type == "line_edits":
                         parameter_title = H3(margin, parameter["name"])
                         line_edits = LineEdits(margin, *parameter["placeholders"])
+                        line_edits.setTexts(config[parameter_name])
 
                         self.parameter_configs[widget][parameter_name]['widget'] = line_edits
 
@@ -224,6 +224,7 @@ class Ui_Dialog(object):
                     elif widget_type == "combo_box":
                         parameter_title = H3(margin, parameter["name"])
                         combo_box = ComboBox(margin, *parameter["options"])
+                        combo_box.setText(config[parameter_name])
 
                         self.parameter_configs[widget][parameter_name]['widget'] = combo_box.comboBox
 
@@ -234,6 +235,7 @@ class Ui_Dialog(object):
                         self.addWidgetIntoSroll(combo_box)
                     elif widget_type == "check_box":
                         check_box = NamedCheckBox(margin, parameter["name"])
+                        check_box.setChecked(parameter_name)
 
                         self.parameter_configs[widget][parameter_name]['widget'] = check_box.checkbox
 
@@ -289,18 +291,16 @@ class Ui_Dialog(object):
             with open(fr"addons\{widget}\config.json", 'w') as config_file:
                 json.dump(config, config_file, indent=4)
 
-    def apply_button(self):
+    def apply_func(self):
         self.change_config()
 
-    def cancel_button(self):
+    def cancel_func(self):
         self.set_configs()
         del self.configs
-        del self
 
-    def ok_button(self):
+    def ok_func(self):
         self.change_config()
         del self.configs
-        del self
 
     def addWidgetIntoSroll(self, widget):
         self.scroll.insertWidget(self.widgets, widget)
