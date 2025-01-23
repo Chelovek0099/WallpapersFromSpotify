@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>965</width>
-    <height>773</height>
+    <height>770</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -169,7 +169,7 @@ QTabBar::tab:selected
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>-2919</y>
+               <y>-785</y>
                <width>388</width>
                <height>3653</height>
               </rect>

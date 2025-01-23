@@ -22,8 +22,8 @@ class Widget(QSlider):
         self.configInit()
 
         self.setObjectName(u"trackSlider")
-        self.setGeometry(QRect(self.trackSliderMarginLeft, self.trackSliderMarginUp, self.trackSliderSizeX,
-                                           self.trackSliderHandleSizeY + 15))
+        self.setGeometry(QRect(self.trackSliderPosition[0], self.trackSliderPosition[1], self.trackSliderSize[0],
+                                           self.trackSliderHandleSize[1] + 15))
 
         if self.operator_to_func[self.trackSliderAdd_pageColorThresholdMode](sorted(background), sorted(self.trackSliderAdd_pageColorThreshold)) and not self.trackSliderAdd_pageColorFixed:
             sliderAdd_pageColor = self.trackSliderAdd_pageColor2
@@ -47,10 +47,10 @@ class Widget(QSlider):
                 QSlider::handle:horizontal {"{"}
                     background-color: rgba{str(tuple(sliderHandleColor))};
                     border: 1px solid rgba{str(tuple(sliderHandleColor))};    
-                    width: {self.trackSliderHandleSizeX + 10}px;
+                    width: {self.trackSliderHandleSize[0] + 10}px;
                     margin: -2px 0;     
                     border-radius: {self.trackSliderHandleRadius}px;
-                    padding: 0 {self.trackSliderHandleSizeY * (-1) + 1}px;
+                    padding: 0 {self.trackSliderHandleSize[1] * (-1) + 1}px;
                 {"}"}
                 QSlider::add-page:horizontal {"{"}
                     border-radius: {self.trackSliderRadius}px;
@@ -61,6 +61,7 @@ class Widget(QSlider):
                     background: rgba{str(tuple(sliderSub_pageColor))};
                 {"}"}
         """)
+        self.setMaximum(playback['item']['duration_ms'] / 1000)
 
     def updateTrack(self, playback, background):
         self.setMaximum(playback['item']['duration_ms']/1000)
@@ -87,10 +88,10 @@ class Widget(QSlider):
                         QSlider::handle:horizontal {"{"}
                             background-color: rgba{str(tuple(sliderHandleColor))};
                             border: 1px solid rgba{str(tuple(sliderHandleColor))};    
-                            width: {self.trackSliderHandleSizeX + 10}px;
+                            width: {self.trackSliderHandleSize[0] + 10}px;
                             margin: -2px 0;     
                             border-radius: {self.trackSliderHandleRadius}px;
-                            padding: 0 {self.trackSliderHandleSizeY * (-1) + 1}px;
+                            padding: 0 {self.trackSliderHandleSize[1] * (-1) + 1}px;
                         {"}"}
                         QSlider::add-page:horizontal {"{"}
                             border-radius: {self.trackSliderRadius}px;
@@ -106,14 +107,13 @@ class Widget(QSlider):
         self.setValue(playback["progress_ms"]/1000)
 
     def updateWidget(self, background):
-        self.setGeometry(QRect(self.trackSliderMarginLeft, self.trackSliderMarginUp, self.trackSliderSizeX,
-                               self.trackSliderHandleSizeY + 15))
+        self.setGeometry(QRect(self.trackSliderPosition[0], self.trackSliderPosition[1], self.trackSliderSize[0],
+                               self.trackSliderHandleSize[1] + 15))
 
     def configInit(self):
-        with open(r"config.json") as configFile:
+        with open(r"addons/trackSlider/config.json") as configFile:
             self.config = json.load(configFile)
-        self.trackSliderSizeX = self.config["trackSliderSizeX"]
-        self.trackSliderSizeY = self.config["trackSliderSizeY"]
+        self.trackSliderSize = self.config["trackSliderSize"]
         self.trackSliderRadius = self.config["trackSliderRadius"]
         self.trackSliderAdd_pageColor1 = self.config["trackSliderAdd-pageColor1"]
         self.trackSliderAdd_pageColorFixed = self.config["trackSliderAdd-pageColorFixed"]
@@ -125,10 +125,8 @@ class Widget(QSlider):
         self.trackSliderSub_pageColorThreshold = self.config["trackSliderSub-pageColorThreshold"]
         self.trackSliderSub_pageColorThresholdMode = self.config["trackSliderSub-pageColorThresholdMode"]
         self.trackSliderSub_pageColor2 = self.config["trackSliderSub-pageColor2"]
-        self.trackSliderMarginLeft = self.config["trackSliderMarginLeft"]
-        self.trackSliderMarginUp = self.config["trackSliderMarginUp"]
-        self.trackSliderHandleSizeX = self.config["trackSliderHandleSizeX"]
-        self.trackSliderHandleSizeY = self.config["trackSliderHandleSizeY"]
+        self.trackSliderPosition = self.config["trackSliderPosition"]
+        self.trackSliderHandleSize = self.config["trackSliderHandleSize"]
         self.trackSliderHandleRadius = self.config["trackSliderHandleRadius"]
         self.trackSliderHandleColor1 = self.config["trackSliderHandleColor1"]
         self.trackSliderHandleColorFixed = self.config["trackSliderHandleColorFixed"]

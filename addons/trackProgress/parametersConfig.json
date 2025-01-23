@@ -1,24 +1,11 @@
 {
-  "name":  "Имена исполнителей",
+  "name": "",
   "categories": {
     "main": [
       {
-        "name": "Отображение имен исполнителей",
-        "parameter": "nameArtistsMode",
-        "documentation": "documentation/artistsMode_Parameter.md",
-        "widget_type": "combo_box",
-        "data_type": "str",
-        "options": [
-          "right",
-          "left",
-          "up",
-          "down"
-        ]
-      },
-      {
-        "name": "Размер имен исполнителей",
-        "parameter": "nameArtistsSize",
-        "documentation": "documentation/artistsMode_Parameter.md",
+        "name": "Размер прогресса трека",
+        "parameter": "trackProgressSize",
+        "documentation": "documentation/trackProgressSize_Parameter.md",
         "widget_type": "line_edits",
         "data_type": "int",
         "placeholders": [
@@ -26,20 +13,21 @@
         ]
       },
       {
-        "name": "Отступ имен исполнителей",
-        "parameter": "nameArtistsMargin",
-        "documentation": "documentation/artistsMargin_Parameter.md",
+        "name": "Позиция прогресса трека",
+        "parameter": "trackProgressPosition",
+        "documentation": "documentation/trackProgressPosition_Parameter.md",
         "widget_type": "line_edits",
         "data_type": "int",
         "placeholders": [
-          "px"
+          "X",
+          "Y"
         ]
       }
     ],
-    "Цвет имен исполнителей": [
+    "Прогресс трека": [
       {
-        "name": "Цвет имен исполнителей 1",
-        "parameter": "nameArtistsColor1",
+        "name": "Цвет прогресса трека 1",
+        "parameter": "trackProgressColor1",
         "documentation": "documentation/color1_Parameter.md",
         "widget_type": "line_edits",
         "data_type": "int",
@@ -52,14 +40,14 @@
       },
       {
         "name": "Фиксированный цвет",
-        "parameter": "nameArtistsColorFixed",
+        "parameter": "trackProgressColorFixed",
         "documentation": "documentation/fixedColor_Parameter.md",
         "widget_type": "check_box",
         "data_type": "bool"
       },
       {
         "name": "Порог оттенка",
-        "parameter": "nameArtistsColorThreshold",
+        "parameter": "trackProgressColorThreshold",
         "documentation": "documentation/colorThreshold_Parameter.md",
         "widget_type": "line_edits",
         "data_type": "int",
@@ -71,7 +59,7 @@
       },
       {
         "name": "Метод сравнения",
-        "parameter": "nameArtistsColorThresholdMode",
+        "parameter": "trackProgressColorThresholdMode",
         "documentation": "documentation/colorThresholdMode_Parameter.md",
         "widget_type": "combo_box",
         "data_type": "str",
@@ -84,8 +72,8 @@
         ]
       },
       {
-        "name": "Цвет имен исполнителей 2",
-        "parameter": "nameArtistsColor2",
+        "name": "Цвет прогресса трека 2",
+        "parameter": "trackProgressColor2",
         "documentation": "documentation/color2_Parameter.md",
         "widget_type": "line_edits",
         "data_type": "int",

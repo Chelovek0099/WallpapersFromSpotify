@@ -1,7 +1,6 @@
 import json
 import threading
 
-from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QWidget
 
 from PIL import Image
@@ -62,10 +61,10 @@ class Ui_MainWindow(object):
             if track_id != last_id:
                 last_id = track_id
 
-                self.changeBackground()
-
                 for widget in updateTrack:
                     exec('self.' + widget + f'.updateTrack({playback}, (255, 255, 255))')
+
+                self.changeBackground()
 
             for widget in updatePlayback:
                 exec('self.' + widget + f'.updatePlayback({playback})')

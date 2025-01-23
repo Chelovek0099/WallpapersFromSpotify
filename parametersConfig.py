@@ -239,8 +239,6 @@ class Ui_Dialog(object):
 
                         self.parameter_configs[widget][parameter_name]['widget'] = check_box.checkbox
 
-                        check_box.checkbox.clicked.connect(lambda d_f=doc_file: self.setDocumentation(d_f))
-
                         self.addWidgetIntoSroll(check_box)
                     else:
                         raise ConfigTypeError("'" + widget_type + "'", widget,
@@ -286,7 +284,7 @@ class Ui_Dialog(object):
                     config[parameter_name] = eval(f"{data_type}(combo_box.currentText())")
                 elif widget_type == "check_box":
                     check_box = parameter_widget
-                    config[parameter_name] = eval(f"{data_type}(check_box.checked())")
+                    config[parameter_name] = eval(f"{data_type}(check_box.isChecked())")
 
             with open(fr"addons\{widget}\config.json", 'w') as config_file:
                 json.dump(config, config_file, indent=4)

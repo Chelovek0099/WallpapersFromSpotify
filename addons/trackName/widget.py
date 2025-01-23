@@ -25,9 +25,9 @@ class Widget(QLabel):
 
         if self.operator_to_func[self.trackNameColorThresholdMode](
                 sorted(background), sorted(self.trackNameColorThreshold)) and not self.trackNameColorFixed:
-            self.setStyleSheet(f"color: rgb{str(tuple(self.trackNameColor2))}; font-size: {self.trackNameSize}px")
+            self.setStyleSheet(f"color: rgba{str(tuple(self.trackNameColor2))}; font-size: {self.trackNameSize}px")
         else:
-            self.setStyleSheet(f"color: rgb{str(tuple(self.trackNameColor1))}; font-size: {self.trackNameSize}px")
+            self.setStyleSheet(f"color: rgba{str(tuple(self.trackNameColor1))}; font-size: {self.trackNameSize}px")
 
         self.setText(track_name)
 
@@ -41,7 +41,7 @@ class Widget(QLabel):
 
         self.setText(track_name)
 
-        if self.config['trackNameMode'] == 'left':
+        if self.trackNameMode == 'left':
             self.setAlignment(Qt.AlignRight)
         else:
             self.setAlignment(Qt.AlignLeft)
@@ -55,8 +55,14 @@ class Widget(QLabel):
         else:
             self.setGeometry(QRect(*self.trackNamePosition, 1000, int(1.35 * self.trackNameSize)))
 
+        if self.operator_to_func[self.trackNameColorThresholdMode](
+                sorted(background), sorted(self.trackNameColorThreshold)) and not self.trackNameColorFixed:
+            self.setStyleSheet(f"color: rgba{str(tuple(self.trackNameColor2))}; font-size: {self.trackNameSize}px")
+        else:
+            self.setStyleSheet(f"color: rgba{str(tuple(self.trackNameColor1))}; font-size: {self.trackNameSize}px")
+
     def configInit(self):
-        with open(r"config.json") as configFile:
+        with open(r"addons/trackName/config.json", 'r', encoding='utf-8') as configFile:
             self.config = json.load(configFile)
         self.trackNameMode = self.config["trackNameMode"]
         self.trackNameSize = self.config["trackNameSize"]
@@ -66,21 +72,22 @@ class Widget(QLabel):
         self.trackNameColorThresholdMode = self.config["trackNameColorThresholdMode"]
         self.trackNameColor2 = self.config["trackNameColor2"]
         self.trackNamePosition = self.config["trackNamePosition"]
+        with open(r"addons/albumImage/config.json", 'r', encoding='utf-8') as configFile:
+            self.config = json.load(configFile)
         self.albumImageSize = self.config["albumImageSize"]
-        self.albumImageMarginLeft = self.config["albumImageMarginLeft"]
-        self.albumImageMarginUp = self.config["albumImageMarginUp"]
+        self.albumImagePosition = self.config["albumImagePosition"]
 
         if self.trackNameMode == "right":
             self.trackNamePosition = *(
-                self.albumImageMarginLeft + self.albumImageSize + self.trackNamePosition[0],self.albumImageMarginUp +
+                self.albumImagePosition[0] + self.albumImageSize + self.trackNamePosition[0],self.albumImagePosition[1] +
                 self.albumImageSize - self.trackNameSize -self.trackNamePosition[1]),
         elif self.config['trackNameMode'] == "left":
             self.trackNamePosition = *(
-                self.albumImageMarginUp + self.albumImageSize - self.trackNameSize - self.trackNamePosition[1],
-                self.albumImageMarginLeft - self.trackNamePosition[0]),
+                self.albumImagePosition[1] + self.albumImageSize - self.trackNameSize - self.trackNamePosition[1],
+                self.albumImagePosition[0] - self.trackNamePosition[0]),
         elif self.trackNameMode == "down":
-            self.trackNamePosition = *(self.albumImageMarginLeft - self.trackNamePosition[0],
-                                       self.albumImageMarginUp + self.albumImageSize + self.trackNamePosition[1]),
+            self.trackNamePosition = *(self.albumImagePosition[0] - self.trackNamePosition[0],
+                                       self.albumImagePosition[1] + self.albumImageSize + self.trackNamePosition[1]),
         elif self.trackNameMode == "up":
-            self.trackNamePosition = *(self.albumImageMarginLeft + self.trackNamePosition[0],
-                                       self.albumImageMarginUp - self.trackNamePosition[1]),
+            self.trackNamePosition = *(self.albumImagePosition[0] + self.trackNamePosition[0],
+                                       self.albumImagePosition[1] - self.trackNamePosition[1]),
