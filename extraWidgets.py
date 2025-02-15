@@ -70,11 +70,11 @@ class NamedCheckBox(QFrame):
         self.setMinimumSize(0, 24)
         self.setMaximumSize(16777215, 24)
 
-        label = QLabel(self)
-        label.setText(name)
-        label.setMinimumSize(195, 24)
-        label.setMaximumSize(195, 24)
-        self.horizontalLayout.addWidget(label)
+        self.label = ClickableLabel(self)
+        self.label.setText(name)
+        self.label.setMinimumSize(195, 24)
+        self.label.setMaximumSize(195, 24)
+        self.horizontalLayout.addWidget(self.label)
 
         self.checkbox = QCheckBox(self)
         self.checkbox.setStyleSheet("QCheckBox::indicator {"
@@ -94,6 +94,7 @@ class NamedCheckBox(QFrame):
         self.checkbox.setEnabled(active)
 
     def setChecked(self, checked):
+        print(checked, "is checked")
         self.checkbox.setChecked(bool(checked))
 
 

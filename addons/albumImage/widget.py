@@ -8,7 +8,7 @@ from PIL import Image
 
 
 class Widget(QLabel):
-    def init(self, playback, background):
+    def init(self, playback):
         self.configInit()
 
         self.setObjectName(u"albumImage")
@@ -16,18 +16,12 @@ class Widget(QLabel):
             QRect(self.albumImagePosition[0], self.albumImagePosition[1], self.albumImageSize, self.albumImageSize))
         self.borderRadiusAlbumImage(self.albumImageRadius)
 
-        try:
-            resource = requests.get(playback["item"]["album"]["images"][1]["url"])
-            with open('albumImg.jpg', 'wb') as img:
-                img.write(resource.content)
-            img = Image.open('albumImg.jpg')
-            newImg = img.resize((self.albumImageSize, self.albumImageSize))
-            newImg.save('albumImg.jpg')
-        finally:
-            pass
+        img = Image.open('callback_resources/albumImg.jpg')
+        newImg = img.resize((self.albumImageSize, self.albumImageSize))
+        newImg.save('callback_resources/albumImg.jpg')
 
         self.setText("")
-        self.setPixmap(QPixmap('albumImg.jpg'))
+        self.setPixmap(QPixmap('callback_resources/albumImg.jpg'))
 
     def updateTrack(self, playback, background):
         try:

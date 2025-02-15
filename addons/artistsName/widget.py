@@ -5,7 +5,7 @@ import json
 
 
 class Widget(QLabel):
-    def init(self, playback, background):
+    def init(self, playback):
         self.operator_to_func = {
             '>': lambda a, b: a > b,
             '<': lambda a, b: a < b,
@@ -16,12 +16,6 @@ class Widget(QLabel):
         self.configInit()
 
         artists_name = ", ".join(artist["name"] for artist in playback["item"]["artists"])
-
-        if self.operator_to_func[self.nameArtistsColorThresholdMode](
-                sorted(background), sorted(self.nameArtistsColorThreshold)) and not self.nameArtistsColorFixed:
-            self.setStyleSheet(f"color: rgba{str(tuple(self.nameArtistsColor2))}; font-size: {self.nameArtistsSize}px")
-        else:
-            self.setStyleSheet(f"color: rgba{str(tuple(self.nameArtistsColor1))}; font-size: {self.nameArtistsSize}px")
 
         self.setText(artists_name)
 

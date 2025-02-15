@@ -5,7 +5,7 @@ import json
 
 
 class Widget(QLabel):
-    def init(self, playback, background):
+    def init(self, playback):
         self.operator_to_func = {
             '>': lambda a, b: a > b,
             '<': lambda a, b: a < b,
@@ -23,14 +23,6 @@ class Widget(QLabel):
         else:
             self.setGeometry(QRect(*self.trackNamePosition, 1000, int(1.35 * self.trackNameSize)))
 
-        if self.operator_to_func[self.trackNameColorThresholdMode](
-                sorted(background), sorted(self.trackNameColorThreshold)) and not self.trackNameColorFixed:
-            self.setStyleSheet(f"color: rgba{str(tuple(self.trackNameColor2))}; font-size: {self.trackNameSize}px")
-        else:
-            self.setStyleSheet(f"color: rgba{str(tuple(self.trackNameColor1))}; font-size: {self.trackNameSize}px")
-
-        self.setText(track_name)
-
         if self.trackNameMode == 'left':
             self.setAlignment(Qt.AlignRight)
         else:
@@ -40,6 +32,12 @@ class Widget(QLabel):
         track_name = playback["item"]["name"]
 
         self.setText(track_name)
+
+        if self.operator_to_func[self.trackNameColorThresholdMode](
+                sorted(background), sorted(self.trackNameColorThreshold)) and not self.trackNameColorFixed:
+            self.setStyleSheet(f"color: rgba{str(tuple(self.trackNameColor2))}; font-size: {self.trackNameSize}px")
+        else:
+            self.setStyleSheet(f"color: rgba{str(tuple(self.trackNameColor1))}; font-size: {self.trackNameSize}px")
 
         if self.trackNameMode == 'left':
             self.setAlignment(Qt.AlignRight)
@@ -61,6 +59,12 @@ class Widget(QLabel):
         else:
             self.setStyleSheet(f"color: rgba{str(tuple(self.trackNameColor1))}; font-size: {self.trackNameSize}px")
 
+        if self.trackNameMode == 'left':
+            self.setAlignment(Qt.AlignRight)
+        else:
+            self.setAlignment(Qt.AlignLeft)
+        print(3)
+
     def configInit(self):
         with open(r"addons/trackName/config.json", 'r', encoding='utf-8') as configFile:
             self.config = json.load(configFile)
@@ -81,7 +85,7 @@ class Widget(QLabel):
             self.trackNamePosition = *(
                 self.albumImagePosition[0] + self.albumImageSize + self.trackNamePosition[0],self.albumImagePosition[1] +
                 self.albumImageSize - self.trackNameSize -self.trackNamePosition[1]),
-        elif self.config['trackNameMode'] == "left":
+        elif self.trackNameMode == "left":
             self.trackNamePosition = *(
                 self.albumImagePosition[1] + self.albumImageSize - self.trackNameSize - self.trackNamePosition[1],
                 self.albumImagePosition[0] - self.trackNamePosition[0]),

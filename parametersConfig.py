@@ -229,21 +229,21 @@ class Ui_Dialog(object):
                         self.parameter_configs[widget][parameter_name]['widget'] = combo_box.comboBox
 
                         parameter_title.label.clicked.connect(lambda d_f=doc_file: self.setDocumentation(d_f))
-                        combo_box.comboBox.activated.connect(lambda d_f=doc_file: self.setDocumentation(d_f))
 
                         self.addWidgetIntoSroll(parameter_title)
                         self.addWidgetIntoSroll(combo_box)
                     elif widget_type == "check_box":
                         check_box = NamedCheckBox(margin, parameter["name"])
-                        check_box.setChecked(parameter_name)
+                        check_box.setChecked(config[parameter_name])
 
                         self.parameter_configs[widget][parameter_name]['widget'] = check_box.checkbox
+
+                        check_box.label.clicked.connect(lambda d_f=doc_file: self.setDocumentation(d_f))
 
                         self.addWidgetIntoSroll(check_box)
                     else:
                         raise ConfigTypeError("'" + widget_type + "'", widget,
                                               str(parameters["categories"][category]))
-            print(self.parameter_configs)
 
     def get_configs(self):
         configs = {}

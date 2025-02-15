@@ -5,6 +5,11 @@
         50,
         50
     ],
+    "backgroundColor-NoneTrack": [
+        50,
+        50,
+        50
+    ],
     "albumImageSize": 600,
     "albumImageRadius": 35,
     "albumImageMarginLeft": 325,

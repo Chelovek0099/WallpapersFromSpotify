@@ -5,7 +5,7 @@ import json
 
 
 class Widget(QLabel):
-    def init(self, playback, background):
+    def init(self, playback):
         self.confiInit()
 
         self.setObjectName(u"progressTime")

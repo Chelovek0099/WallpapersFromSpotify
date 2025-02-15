@@ -1,4 +1,5 @@
 import json
+import requests
 import threading
 
 from PySide6.QtWidgets import QWidget
@@ -14,6 +15,7 @@ with open('widgets.json') as widgets_config:
 updateTrack = []
 updatePlayback = []
 updateWidget = []
+nonePlayback = []
 
 
 class Ui_MainWindow(object):
@@ -25,6 +27,7 @@ class Ui_MainWindow(object):
             self.backgroundConfig = json.load(backgroundConfig)
             self.backgroundColorFixed = self.backgroundConfig['backgroundColorFixed']
             self.backgroundColor = self.backgroundConfig['backgroundColor']
+            self.backgroundColor_noneTrack = self.backgroundConfig['backgroundColor-NoneTrack']
 
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -37,7 +40,7 @@ class Ui_MainWindow(object):
             exec('from addons.' + widget + '.widget import Widget')
 
             exec('self.' + widget + ' = Widget(self.centralwidget)')
-            exec('self.' + widget + f'.init({playback}, (255, 255, 255))')
+            exec('self.' + widget + f'.init({playback})')
 
             if hasattr(eval('Widget'), 'updateTrack'):
                 updateTrack.append(widget)
@@ -45,38 +48,75 @@ class Ui_MainWindow(object):
                 updatePlayback.append(widget)
             if hasattr(eval('Widget'), 'updateWidget'):
                 updateWidget.append(widget)
-
-        self.changeBackground()
+            if hasattr(eval('Widget'), 'nonePlayback'):
+                nonePlayback.append(widget)
 
         track_update = threading.Thread(target=self.trackUpdate)
         track_update.start()
+        self.none_track = threading.Thread(target = self.noneTrackThread)
 
     def trackUpdate(self):
         playback = self.sp_caller.getTrackInfo()
-        last_id = playback['item']['id']
+        none = False
+
+        if playback == None:
+            self.none_track.start()
+            none = True
+        else:
+            last_id = playback['item']['id']
+
+            background_update = threading.Thread(target=self.updateTrackThread, args=(playback, ))
+            background_update.start()
         while 1:
             playback = self.sp_caller.getTrackInfo()
-            track_id = playback['item']['id']
 
-            if track_id != last_id:
-                last_id = track_id
+            if playback == None and not none:
+                self.none_track.start()
+                none = True
+            elif not none:
+                track_id = playback['item']['id']
 
-                for widget in updateTrack:
-                    exec('self.' + widget + f'.updateTrack({playback}, (255, 255, 255))')
+                for widget in updatePlayback:
+                    exec('self.' + widget + f'.updatePlayback({playback})')
 
-                self.changeBackground()
+                if track_id != last_id:
+                    last_id = track_id
 
-            for widget in updatePlayback:
-                exec('self.' + widget + f'.updatePlayback({playback})')
+                    background_update = threading.Thread(target = self.updateTrackThread, args = (playback,))
+                    background_update.start()
+            else:
+                none = False
 
     def widgetsUpdate(self):
         for widget in updateWidget:
-            exec('self.' + widget + f'.updateWidget((255, 255, 255))')
+            exec('self.' + widget + f'.updateWidget({self.currentBackgroundColor})')
 
     def changeBackground(self):
         if self.backgroundColorFixed:
             backgroundColor = str(tuple(self.backgroundColor))
         else:
-            backgroundColor = str(sqrt_algorithm(Image.open('albumImg.jpg')))
-        print(f'background-color: {backgroundColor}')
+            backgroundColor = str(sqrt_algorithm(Image.open('callback_resources/albumImg.jpg')))
         self.centralwidget.setStyleSheet(f'background-color: rgb{backgroundColor}')
+        self.currentBackgroundColor = backgroundColor
+
+    def updateTrackThread(self, playback):
+        self.loadAlbumImage(playback)
+        self.changeBackground()
+        for widget in updateTrack:
+            exec('self.' + widget + f'.updateTrack({playback}, {self.currentBackgroundColor})')
+
+    def noneTrackThread(self):
+        currentBackgroundColor = str(tuple(self.backgroundColor_noneTrack))
+        self.centralwidget.setStyleSheet(f'background-color: rgb{currentBackgroundColor}')
+        for widget in nonePlayback:
+            exec('self.' + widget + f'.nonePlayback({currentBackgroundColor})')
+
+    def loadAlbumImage(self, playback):
+        self.opened = True
+        try:
+            resource = requests.get(playback["item"]["album"]["images"][1]["url"])
+            with open('callback_resources/albumImg.jpg', 'wb') as img:
+                img.write(resource.content)
+        finally:
+            pass
+        self.opened = False

@@ -15,10 +15,11 @@ class SpCaller:
         self.sp.current_playback()
 
     def getTrackInfo(self):
-        result = self.sp.current_user_playing_track()
-        return result
-
-
-if __name__ == '__main__':
-    sp = SpCaller()
-    print(sp.initWidgets())
+        for i in range(5):
+            try:
+                result = self.sp.current_user_playing_track()
+            except:
+                pass
+            else:
+                return result
+        raise Exception()
