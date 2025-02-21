@@ -1,0 +1,98 @@
+{
+  "name": "Эквалайзер",
+  "categories": {
+    "main": [
+      {
+        "name": "Позиция эквалайзера",
+        "parameter": "equalizerPosition",
+        "documentation": "",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "px"
+        ]
+      },
+      {
+        "name": "Ширина столбца",
+        "parameter": "equalizer_valWidth",
+        "documentation": "",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "px"
+        ]
+      },
+      {
+        "name": "Ширина пробелов",
+        "parameter": "equalizer_valSpaces",
+        "documentation": "",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "px"
+        ]
+      }
+    ],
+    "Цвет эквалайзера": [
+      {
+        "name": "Цвет эквалайзера 1",
+        "parameter": "equalizerColor1",
+        "documentation": "documentation/color1_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B",
+          "A"
+        ]
+      },
+      {
+        "name": "Фиксированный цвет",
+        "parameter": "equalizerColorFixed",
+        "documentation": "documentation/fixedColor_Parameter.md",
+        "widget_type": "check_box",
+        "data_type": "bool"
+      },
+      {
+        "name": "Порог оттенка",
+        "parameter": "equalizerColorThreshold",
+        "documentation": "documentation/colorThreshold_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B"
+        ]
+      },
+      {
+        "name": "Метод сравнения",
+        "parameter": "equalizerColorThresholdMode",
+        "documentation": "documentation/colorThresholdMode_Parameter.md",
+        "widget_type": "combo_box",
+        "data_type": "str",
+        "options": [
+          ">",
+          "<",
+          ">=",
+          "<=",
+          "=="
+        ]
+      },
+      {
+        "name": "Цвет эквалайзера 2",
+        "parameter": "equalizerColor2",
+        "documentation": "documentation/color2_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B",
+          "A"
+        ]
+      }
+    ]
+  }
+}
