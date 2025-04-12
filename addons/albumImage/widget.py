@@ -7,7 +7,7 @@ import requests
 from PIL import Image
 
 
-class Widget(QLabel):
+class AlbumImage(QLabel):
     def init(self, playback):
         self.configInit()
 
@@ -21,7 +21,6 @@ class Widget(QLabel):
         newImg.save('callback_resources/albumImg.jpg')
 
         self.setText("")
-        self.setPixmap(QPixmap('callback_resources/albumImg.jpg'))
 
     def updateTrack(self, playback, background):
         try:
@@ -48,7 +47,6 @@ class Widget(QLabel):
         self.borderRadiusAlbumImage(self.albumImageRadius)
 
         self.setPixmap(QPixmap('albumImg.jpg'))
-
     def configInit(self):
         with open(r"addons/albumImage/config.json") as configFile:
             self.config = json.load(configFile)

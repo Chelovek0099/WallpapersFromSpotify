@@ -1,0 +1,73 @@
+{
+    "trackSliderSize": [
+        1520,
+        10
+    ],
+    "trackSliderPosition": [
+        200,
+        850
+    ],
+    "trackSliderRadius": 2,
+    "trackSliderAdd-pageColor1": [
+        60,
+        60,
+        60,
+        130
+    ],
+    "trackSliderAdd-pageColorFixed": true,
+    "trackSliderAdd-pageColorThreshold": [
+        180,
+        180,
+        180
+    ],
+    "trackSliderAdd-pageColorThresholdMode": "==",
+    "trackSliderAdd-pageColor2": [
+        255,
+        255,
+        255,
+        255
+    ],
+    "trackSliderSub-pageColor1": [
+        230,
+        230,
+        230,
+        180
+    ],
+    "trackSliderSub-pageColorFixed": false,
+    "trackSliderSub-pageColorThreshold": [
+        180,
+        180,
+        180
+    ],
+    "trackSliderSub-pageColorThresholdMode": ">",
+    "trackSliderSub-pageColor2": [
+        40,
+        40,
+        40,
+        210
+    ],
+    "trackSliderHandleSize": [
+        3,
+        3
+    ],
+    "trackSliderHandleRadius": 5,
+    "trackSliderHandleColor1": [
+        230,
+        230,
+        230,
+        180
+    ],
+    "trackSliderHandleColorFixed": false,
+    "trackSliderHandleColorThreshold": [
+        180,
+        180,
+        180
+    ],
+    "trackSliderHandleColorThresholdMode": ">",
+    "trackSliderHandleColor2": [
+        40,
+        40,
+        40,
+        210
+    ]
+}

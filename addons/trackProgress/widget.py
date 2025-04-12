@@ -4,7 +4,7 @@ from PySide6.QtCore import QRect
 import json
 
 
-class Widget(QLabel):
+class TrackProgress(QLabel):
     def init(self, playback):
         self.confiInit()
 

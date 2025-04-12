@@ -7,7 +7,7 @@ from PySide6.QtCore import QRect
 import json
 
 
-class Widget(QSlider):
+class TrackSlider(QSlider):
     def __init__(self, parent):
         super().__init__(Qt.Horizontal, parent)
 
@@ -23,22 +23,23 @@ class Widget(QSlider):
 
         self.setObjectName(u"trackSlider")
         self.setGeometry(QRect(self.trackSliderPosition[0], self.trackSliderPosition[1], self.trackSliderSize[0],
-                                           self.trackSliderHandleSize[1] + 15))
-
-        self.setMaximum(playback['item']['duration_ms'] / 1000)
+                               self.trackSliderHandleSize[1] + 15))
 
     def updateTrack(self, playback, background):
-        self.setMaximum(playback['item']['duration_ms']/1000)
+        self.setMaximum(playback['item']['duration_ms'] / 1000)
 
-        if self.operator_to_func[self.trackSliderAdd_pageColorThresholdMode](sorted(background), sorted(self.trackSliderAdd_pageColorThreshold)) and not self.trackSliderAdd_pageColorFixed:
+        if self.operator_to_func[self.trackSliderAdd_pageColorThresholdMode](sorted(background),
+                                                                             sorted(self.trackSliderAdd_pageColorThreshold)) and not self.trackSliderAdd_pageColorFixed:
             sliderAdd_pageColor = self.trackSliderAdd_pageColor2
         else:
             sliderAdd_pageColor = self.trackSliderAdd_pageColor1
-        if self.operator_to_func[self.trackSliderSub_pageColorThresholdMode](sorted(background), sorted(self.trackSliderSub_pageColorThreshold)) and not self.trackSliderSub_pageColorFixed:
+        if self.operator_to_func[self.trackSliderSub_pageColorThresholdMode](sorted(background),
+                                                                             sorted(self.trackSliderSub_pageColorThreshold)) and not self.trackSliderSub_pageColorFixed:
             sliderSub_pageColor = self.trackSliderSub_pageColor2
         else:
             sliderSub_pageColor = self.trackSliderSub_pageColor1
-        if self.operator_to_func[self.trackSliderHandleColorThresholdMode](sorted(background), sorted(self.trackSliderHandleColorThreshold)) and not self.trackSliderHandleColorFixed:
+        if self.operator_to_func[self.trackSliderHandleColorThresholdMode](sorted(background),
+                                                                           sorted(self.trackSliderHandleColorThreshold)) and not self.trackSliderHandleColorFixed:
             sliderHandleColor = self.trackSliderHandleColor2
         else:
             sliderHandleColor = self.trackSliderHandleColor1
@@ -68,7 +69,7 @@ class Widget(QSlider):
                 """)
 
     def updatePlayback(self, playback):
-        self.setValue(playback["progress_ms"]/1000)
+        self.setValue(playback["progress_ms"] / 1000)
 
     def updateWidget(self, background):
         self.configInit()
@@ -76,15 +77,18 @@ class Widget(QSlider):
         self.setGeometry(QRect(self.trackSliderPosition[0], self.trackSliderPosition[1], self.trackSliderSize[0],
                                self.trackSliderHandleSize[1] + 15))
 
-        if self.operator_to_func[self.trackSliderAdd_pageColorThresholdMode](sorted(background), sorted(self.trackSliderAdd_pageColorThreshold)) and not self.trackSliderAdd_pageColorFixed:
+        if self.operator_to_func[self.trackSliderAdd_pageColorThresholdMode](sorted(background),
+                                                                             sorted(self.trackSliderAdd_pageColorThreshold)) and not self.trackSliderAdd_pageColorFixed:
             sliderAdd_pageColor = self.trackSliderAdd_pageColor2
         else:
             sliderAdd_pageColor = self.trackSliderAdd_pageColor1
-        if self.operator_to_func[self.trackSliderSub_pageColorThresholdMode](sorted(background), sorted(self.trackSliderSub_pageColorThreshold)) and not self.trackSliderSub_pageColorFixed:
+        if self.operator_to_func[self.trackSliderSub_pageColorThresholdMode](sorted(background),
+                                                                             sorted(self.trackSliderSub_pageColorThreshold)) and not self.trackSliderSub_pageColorFixed:
             sliderSub_pageColor = self.trackSliderSub_pageColor2
         else:
             sliderSub_pageColor = self.trackSliderSub_pageColor1
-        if self.operator_to_func[self.trackSliderHandleColorThresholdMode](sorted(background), sorted(self.trackSliderHandleColorThreshold)) and not self.trackSliderHandleColorFixed:
+        if self.operator_to_func[self.trackSliderHandleColorThresholdMode](sorted(background),
+                                                                           sorted(self.trackSliderHandleColorThreshold)) and not self.trackSliderHandleColorFixed:
             sliderHandleColor = self.trackSliderHandleColor2
         else:
             sliderHandleColor = self.trackSliderHandleColor1
@@ -136,4 +140,3 @@ class Widget(QSlider):
         self.trackSliderHandleColorThreshold = self.config["trackSliderHandleColorThreshold"]
         self.trackSliderHandleColorThresholdMode = self.config["trackSliderHandleColorThresholdMode"]
         self.trackSliderHandleColor2 = self.config["trackSliderHandleColor2"]
-

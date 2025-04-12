@@ -94,7 +94,6 @@ class NamedCheckBox(QFrame):
         self.checkbox.setEnabled(active)
 
     def setChecked(self, checked):
-        print(checked, "is checked")
         self.checkbox.setChecked(bool(checked))
 
 
@@ -160,7 +159,6 @@ class H2(QFrame):
         self.horizontalLayout.addWidget(label)
 
 
-
 class H3(QFrame):
     def __init__(self, left_margin, text, parent=None):
         super().__init__(parent)
@@ -179,3 +177,15 @@ class H3(QFrame):
 
     def setClickedEvent(self, clicked):
         self.label.clicked.connect(lambda: clicked)
+
+
+class AddonLabel(ClickableLabel):
+    def __init__(self, text, parent=None):
+        super().__init__(parent)
+        self.setMinimumSize(0, 34)
+        self.setMaximumSize(16777215, 34)
+        self.setText(text)
+        self.text = text
+
+    def getText(self):
+        return self.text

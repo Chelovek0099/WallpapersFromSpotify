@@ -1,0 +1,27 @@
+{
+    "trackNameMode": "right",
+    "trackNameSize": 60,
+    "trackNamePosition": [
+        40,
+        70
+    ],
+    "trackNameColor1": [
+        230,
+        230,
+        230,
+        180
+    ],
+    "trackNameColorFixed": false,
+    "trackNameColorThreshold": [
+        180,
+        180,
+        180
+    ],
+    "trackNameColorThresholdMode": ">",
+    "trackNameColor2": [
+        40,
+        40,
+        40,
+        210
+    ]
+}

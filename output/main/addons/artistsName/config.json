@@ -1,0 +1,24 @@
+{
+    "nameArtistsMode": "down",
+    "nameArtistsSize": 20,
+    "nameArtistsMargin": 5,
+    "nameArtistsColor1": [
+        200,
+        200,
+        200,
+        120
+    ],
+    "nameArtistsColorFixed": false,
+    "nameArtistsColorThreshold": [
+        180,
+        180,
+        180
+    ],
+    "nameArtistsColorThresholdMode": ">",
+    "nameArtistsColor2": [
+        20,
+        20,
+        20,
+        120
+    ]
+}

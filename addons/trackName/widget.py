@@ -4,7 +4,7 @@ from PySide6.QtCore import QRect, Qt
 import json
 
 
-class Widget(QLabel):
+class TrackName(QLabel):
     def init(self, playback):
         self.operator_to_func = {
             '>': lambda a, b: a > b,
@@ -14,8 +14,6 @@ class Widget(QLabel):
             '==': lambda a, b: a == b
         }
         self.configInit()
-
-        track_name = playback["item"]["name"]
 
         self.setObjectName(u"trackName")
         if self.trackNameMode == "left":
@@ -63,7 +61,6 @@ class Widget(QLabel):
             self.setAlignment(Qt.AlignRight)
         else:
             self.setAlignment(Qt.AlignLeft)
-        print(3)
 
     def configInit(self):
         with open(r"addons/trackName/config.json", 'r', encoding='utf-8') as configFile:
@@ -95,3 +92,6 @@ class Widget(QLabel):
         elif self.trackNameMode == "up":
             self.trackNamePosition = *(self.albumImagePosition[0] + self.trackNamePosition[0],
                                        self.albumImagePosition[1] - self.trackNamePosition[1]),
+
+    def stop(self):
+        pass

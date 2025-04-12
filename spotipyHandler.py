@@ -1,4 +1,4 @@
-import json
+import requests
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -18,6 +18,10 @@ class SpCaller:
         for i in range(5):
             try:
                 result = self.sp.current_user_playing_track()
+
+                resource = requests.get(result["item"]["album"]["images"][1]["url"])
+                with open('callback_resources/albumImg.jpg', 'wb') as img:
+                    img.write(resource.content)
             except:
                 pass
             else:

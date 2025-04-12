@@ -16,7 +16,7 @@ CHANNELS = 2
 RATE = 44100
 
 
-class Widget(QFrame):
+class Equalizer (QFrame):
     def init(self, playback):
         self.operator_to_func = {
             '>': lambda a, b: a > b,
@@ -74,7 +74,7 @@ class Widget(QFrame):
         if flag:
             print("Playback Error: %i" % flag)
 
-        file_name = f'temp{1}.wav'
+        file_name = 'temp1.wav'
         file = wave.open(file_name, 'wb')
         file.setnchannels(CHANNELS)
         file.setsampwidth(FORMAT)
@@ -105,16 +105,13 @@ class Widget(QFrame):
         return in_data, pyaudio.paContinue
 
     def equalizer(self):
-        p = pyaudio.PyAudio()
+        self.p = pyaudio.PyAudio()
 
-        stream = p.open(format = FORMAT, channels = CHANNELS, rate = RATE, input = True, frames_per_buffer = CHUNK,
+        self.stream = self.p.open(format = FORMAT, channels = CHANNELS, rate = RATE, input = True, frames_per_buffer = CHUNK,
                         stream_callback = self.callback)
 
-        while stream.is_active():
+        while self.stream.is_active():
             pass
-
-        stream.close()
-        p.terminate()
 
     def start_animation(self):
         self.anims = QtCore.QParallelAnimationGroup(self)
@@ -148,3 +145,8 @@ class Widget(QFrame):
 
         self.equalizerPosition = (self.albumImagePosition[0] + self.albumImageSize + equalizerPosition[0],
                                   self.albumImagePosition[1] + equalizerPosition[1])
+
+
+    def stop(self):
+        self.stream.close()
+        self.p.terminate()

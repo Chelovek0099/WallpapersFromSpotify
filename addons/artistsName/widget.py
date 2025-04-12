@@ -4,7 +4,7 @@ from PySide6.QtCore import QRect, Qt
 import json
 
 
-class Widget(QLabel):
+class ArtistsName(QLabel):
     def init(self, playback):
         self.operator_to_func = {
             '>': lambda a, b: a > b,
@@ -14,10 +14,6 @@ class Widget(QLabel):
             '==': lambda a, b: a == b
         }
         self.configInit()
-
-        artists_name = ", ".join(artist["name"] for artist in playback["item"]["artists"])
-
-        self.setText(artists_name)
 
         self.setObjectName(u"artists")
         if self.trackNameMode == "left":

@@ -1,0 +1,15 @@
+{
+    "backgroundMode": "qFilterBlur",
+    "backgroundBlur": 70,
+    "backgroundColorFixed": false,
+    "backgroundColor": [
+        50,
+        50,
+        50
+    ],
+    "backgroundColor-NoneTrack": [
+        50,
+        50,
+        50
+    ]
+}
