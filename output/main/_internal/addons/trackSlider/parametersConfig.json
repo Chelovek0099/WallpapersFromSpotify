@@ -1,0 +1,243 @@
+{
+  "name": "Прогрессбар произведения",
+  "categories": {
+    "main": [
+      {
+        "name": "Размер прогрессбара",
+        "parameter": "trackSliderSize",
+        "documentation": "documentation/progressbarSize_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "X",
+          "Y"
+        ]
+      },
+      {
+        "name": "Позиция прогрессбара",
+        "parameter": "trackSliderPosition",
+        "documentation": "documentation/progressbarPosition_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "X",
+          "Y"
+        ]
+      },
+      {
+        "name": "Закругление прогрессбара",
+        "parameter": "trackSliderRadius",
+        "documentation": "documentation/progressbarRadius_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "px"
+        ]
+      }
+    ],
+    "Цвет первой половины прогрессбара": [
+      {
+        "name": "Цвет первой половины прогрессбара 1",
+        "parameter": "trackSliderAdd-pageColor1",
+        "documentation": "documentation/color1_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B",
+          "A"
+        ]
+      },
+      {
+        "name": "Фиксированный цвет",
+        "parameter": "trackSliderAdd-pageColorFixed",
+        "documentation": "documentation/fixedColor_Parameter.md",
+        "widget_type": "check_box",
+        "data_type": "bool"
+      },
+      {
+        "name": "Порог оттенка",
+        "parameter": "trackSliderAdd-pageColorThreshold",
+        "documentation": "documentation/colorThreshold_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B"
+        ]
+      },
+      {
+        "name": "Метод сравнения",
+        "parameter": "trackSliderAdd-pageColorThresholdMode",
+        "documentation": "documentation/colorThresholdMode_Parameter.md",
+        "widget_type": "combo_box",
+        "data_type": "str",
+        "options": [
+          ">",
+          "<",
+          ">=",
+          "<=",
+          "=="
+        ]
+      },
+      {
+        "name": "Цвет первой половины прогрессбара 2",
+        "parameter": "trackSliderAdd-pageColor2",
+        "documentation": "documentation/color2_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B",
+          "A"
+        ]
+      }
+    ],
+    "Цвет второй половины прогрессбара": [
+      {
+        "name": "Цвет второй половины прогрессбара 1",
+        "parameter": "trackSliderSub-pageColor1",
+        "documentation": "documentation/color1_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B",
+          "A"
+        ]
+      },
+      {
+        "name": "Фиксированный цвет",
+        "parameter": "trackSliderSub-pageColorFixed",
+        "documentation": "documentation/fixedColor_Parameter.md",
+        "widget_type": "check_box",
+        "data_type": "bool"
+      },
+      {
+        "name": "Порог оттенка",
+        "parameter": "trackSliderSub-pageColorThreshold",
+        "documentation": "documentation/colorThreshold_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B"
+        ]
+      },
+      {
+        "name": "Метод сравнения",
+        "parameter": "trackSliderSub-pageColorThresholdMode",
+        "documentation": "documentation/colorThresholdMode_Parameter.md",
+        "widget_type": "combo_box",
+        "data_type": "str",
+        "options": [
+          ">",
+          "<",
+          ">=",
+          "<=",
+          "=="
+        ]
+      },
+      {
+        "name": "Цвет второй половины прогрессбара 2",
+        "parameter": "trackSliderSub-pageColor2",
+        "documentation": "documentation/color2_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B",
+          "A"
+        ]
+      }
+    ],
+    "Хендлер прогрессбара": [
+      {
+        "name": "Размер хендлера прогрессбара",
+        "parameter": "trackSliderHandleSize",
+        "documentation": "documentation/progressbarHandleSize_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "X",
+          "Y"
+        ]
+      },
+      {
+        "name": "Закругление хендлера прогрессбара",
+        "parameter": "trackSliderHandleRadius",
+        "documentation": "documentation/progressbarHandleadius_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "px"
+        ]
+      },
+      {
+        "name": "Цвет хендлера прогрессбара 1",
+        "parameter": "trackSliderHandleColor1",
+        "documentation": "documentation/color1_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B",
+          "A"
+        ]
+      },
+      {
+        "name": "Фиксированный цвет",
+        "parameter": "trackSliderHandleColorFixed",
+        "documentation": "documentation/fixedColor_Parameter.md",
+        "widget_type": "check_box",
+        "data_type": "bool"
+      },
+      {
+        "name": "Порог оттенка",
+        "parameter": "trackSliderHandleColorThreshold",
+        "documentation": "documentation/colorThreshold_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B"
+        ]
+      },
+      {
+        "name": "Метод сравнения",
+        "parameter": "trackSliderHandleColorThresholdMode",
+        "documentation": "documentation/colorThresholdMode_Parameter.md",
+        "widget_type": "combo_box",
+        "data_type": "str",
+        "options": [
+          ">",
+          "<",
+          ">=",
+          "<=",
+          "=="
+        ]
+      },
+      {
+        "name": "Цвет хендлера прогрессбара 2",
+        "parameter": "trackSliderHandleColor2",
+        "documentation": "documentation/color2_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B",
+          "A"
+        ]
+      }
+    ]
+  }
+}

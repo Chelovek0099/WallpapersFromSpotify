@@ -1,0 +1,61 @@
+{
+  "name": "Фон",
+  "categories": {
+    "main": [
+      {
+        "name": "Режим фона",
+        "parameter": "backgroundMode",
+        "documentation": "documentation/progressbarSize_Parameter.md",
+        "widget_type": "combo_box",
+        "data_type": "str",
+        "options": [
+          "Цвет",
+          "boxBlur",
+          "gaussianBlur",
+          "qFilterBlur"
+        ]
+      },
+      {
+        "name": "Сила размытия",
+        "parameter": "backgroundBlur",
+        "documentation": "documentation/colorThreshold_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "px"
+        ]
+      },
+      {
+        "name": "Фиксированный цвет",
+        "parameter": "backgroundColorFixed",
+        "documentation": "documentation/fixedColor_Parameter.md",
+        "widget_type": "check_box",
+        "data_type": "bool"
+      },
+      {
+        "name": "Фиксированный цвет",
+        "parameter": "backgroundColor",
+        "documentation": "documentation/colorThreshold_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B"
+        ]
+      },
+      {
+        "name": "Цвет при пустом треке",
+        "parameter": "backgroundColor-NoneTrack",
+        "documentation": "documentation/colorThreshold_Parameter.md",
+        "widget_type": "line_edits",
+        "data_type": "int",
+        "placeholders": [
+          "R",
+          "G",
+          "B"
+        ]
+      }
+    ]
+  }
+}
